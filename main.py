@@ -35,8 +35,11 @@ def home_page():
     p_id_name = con.execute("""SELECT id from wk_people where name = '{}'""".format(v_name))
 
     p_name = p_id_name.fetchall()
-
-    p_id = p_name[0][0]
+    
+    try:
+        p_id = p_name[0][0]
+    except IndexError:
+        p_id = 3
     statement = ("""SELECT date,day,exercise,sets,reps,weights,name from wk_data INNER JOIN wk_people on wk_data.person_id = wk_people.id
     where person_id = {}""")
     sc = con.execute(statement.format(p_id))
