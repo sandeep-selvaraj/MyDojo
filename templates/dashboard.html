@@ -7,6 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="https://cdn.shopify.com/s/files/1/1079/5890/products/COBRAKAICIRCLEPUZZLE-01_1800x1800.jpg?v=1619645314">
     <link rel="canonical" href="https://getbootstrap.com/docs/3.4/examples/dashboard/">
+  
 
     <title>Jack's GYM</title>
 
@@ -17,7 +18,7 @@
     <link href="https://getbootstrap.com/docs/3.4/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="dashboard.css" rel="stylesheet">
+    <!-- <link href="dashboard.css" rel="stylesheet"> -->
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -27,13 +28,40 @@
     [if lt IE 9]>
       <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-    <![endif]
+    <!-- <![endif]> -->
   </head>
 
   <body>
     <div class="page-header">
-        <h1>Jackkk's Name<small> Faizzz Bhai</small></h1>
-      </div>
+        <h1 id='title_name' name='mytitle'>{{text}}</h1>
+     </div> 
+     <!-- <form>
+       <b>Jacks:</b>
+       <select id='jack_item' name='jacks' methods='POST' onchange="title_change()">
+         <option name='ankin'>Ankin</option>
+         <option name='sandeep'>Sandeep</option>
+       </select>
+       <button type="submit" name='submit' method='POST'>Check Workout</button>
+     </form>  -->
+     <h2> {{text}} </h2>
+    <form action= "{{ url_for('home_page') }}" method="POST">
+
+     <select name= 'tvalue' id='jack_name'>
+      {% for tvalue in tvalues %}
+            
+        {% if selected_tvalue == tvalue %}
+            <option value="{{ tvalue }}" selected='selected'>{{ tvalue }}</option>
+        {% else %}
+             <option value="{{ tvalue }}" >{{ tvalue }}</option>
+        {% endif %}
+      {% endfor %}
+
+      </select>
+
+      <input type="submit" value="Submit" />
+    </form>
+
+        
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -69,15 +97,16 @@
             <li><a href="#">Export</a></li>
           </ul>
         </div>
+        <div class="container">
+          <h1>Work in Progress...</h1>
+        </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Workout Overview</h1>
-
-       
+          <h1 class="page-header">Workout Overview</h1>    
 
           <h2 class="sub-header">Phase 1</h2>
           <div class="table-responsive">
             <table class="table table-striped">
-              <thead>
+              <!-- <thead>
                 <tr>
                   <th>Day</th>
                   <th>Exercise</th>
@@ -93,10 +122,29 @@
                   <td>2.5kgs</td>
                   <td>3</td>
                   <td>10</td>
+                </tr> -->
+                <tr>
+                {%for title in titles %}
+                <th>{{title}}</th>
+                {% endfor %}
+                {% for table in tables %}
                 </tr>
-             
+                    <!-- <th>{{titles[loop.index]}}</th> -->
+                     <!-- {{ table|safe }} -->
+                     <tr>
+                       <td>{{table[0]}}</td>
+                       <td>{{table[1]}}</td>
+                       <td>{{table[2]}}</td>
+                       <td>{{table[3]}}</td>
+                       <td>{{table[4]}}</td>
+                       <td>{{table[5]}}</td>
+                       <td>{{table[6]}}</td>
+                     </tr>
+                {% endfor %}
+                
               </tbody>
             </table>
+
           </div>
         </div>
       </div>
@@ -112,6 +160,6 @@
     <script src="https://getbootstrap.com/docs/3.4/assets/js/vendor/holder.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="https://getbootstrap.com/docs/3.4/assets/js/ie10-viewport-bug-workaround.js"></script>
-  
+    <script src="/static/js/c_master.js"></script>
 
 </body></html>
