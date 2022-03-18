@@ -33,17 +33,9 @@
 
   <body>
     <div class="page-header">
-        <h1 id='title_name' name='mytitle'>{{text}}</h1>
+        <h1 id='title_name' name='mytitle' class="text-center">{{text}}</h1>
      </div> 
-     <!-- <form>
-       <b>Jacks:</b>
-       <select id='jack_item' name='jacks' methods='POST' onchange="title_change()">
-         <option name='ankin'>Ankin</option>
-         <option name='sandeep'>Sandeep</option>
-       </select>
-       <button type="submit" name='submit' method='POST'>Check Workout</button>
-     </form>  -->
-     <h2> {{text}} </h2>
+     <h3> Choose a jack here:- </h3>
     <form action= "{{ url_for('home_page') }}" method="POST">
 
      <select name= 'tvalue' id='jack_name'>
@@ -57,8 +49,7 @@
       {% endfor %}
 
       </select>
-
-      <input type="submit" value="Submit" />
+      <input type="submit" value="Choose Me!" />
     </form>
 
         
@@ -97,8 +88,45 @@
             <li><a href="#">Export</a></li>
           </ul>
         </div>
+        {% if vp_name != '' %}
         <div class="container">
-          <h1>Work in Progress...</h1>
+          <h1>Add your workout for the day {{vp_name}}:</h1>
+          <form action= "{{ url_for('workout_update') }}" class="form-horizontal">
+            <div class="form-group">
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="Sets" placeholder="Sets" required>
+                <p></p>
+                <input type="text" class="form-control" id="Reps" placeholder="Reps" required>
+                <p></p>
+                <input type="text" class="form-control" id="Weights" placeholder="Weights" required>
+                <p></p>
+                <input type="date" class="form-control" id="Weights" placeholder="Date" required>
+                <p></p>
+                <select name= 'evalue' id='jack_exercise'>
+                  {% for evalue in evalues %}
+                        
+                    {% if selected_evalue == evalue %}
+                        <option value="{{ evalue }}" selected='selected'>{{ evalue[0] }}</option>
+                    {% else %}
+                         <option value="{{ evalue }}" >{{ evalue[0] }}</option>
+                    {% endif %}
+                  {% endfor %}
+            
+                  </select>
+              </div>
+            </div>
+        
+            
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">You Sure?</button>
+              </div>
+            </div>
+          </form>
+          {% else %} 
+          <h2>CHOOOSE A JACCKKKK!</h2>
+         {% endif %}
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <h1 class="page-header">Workout Overview</h1>    

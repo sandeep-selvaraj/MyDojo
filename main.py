@@ -12,6 +12,8 @@ con = engine.connect()
 app = Flask(__name__)
 
 def template(title = "HELLO!", text = ""):
+    if text != "":
+        text = text + "'s Workout Dash"
     templateDate = {
         'text' : text,
         'tvalues' : getTValues(),
@@ -21,6 +23,14 @@ def template(title = "HELLO!", text = ""):
 
 def getTValues():
     return ('Ankin', 'Sandeep')
+
+def template_exercise( listEvalues =[]):
+    templateData = {
+        'evalues' : listEvalues,
+        'selected_evalue' : 'Choose an Exercise',
+    }
+    return templateData
+
 
 @app.route('/', methods=['POST', 'GET'])
 def home_page():
@@ -45,13 +55,19 @@ def home_page():
     sc = con.execute(statement.format(p_id))
 
     sct = pd.DataFrame(sc.fetchall(), columns=['Date','Day','Exercise','Sets','Reps','Weights','Person'])
-
+    p_exercises = con.execute("""SELECT workout_name from wk_name""").fetchall()
     #generating template data
     print(tvalue)
     templateData = template(text = tvalue)
     templateData['selected_tvalue'] = tvalue
+    templateExData = template_exercise(p_exercises)
     # return render_template('dashboard.html')
     # return render_template('dashboard.html', **templateData, tables=[sct.to_html(classes='data')], titles=sct.columns.values)
-    return render_template('dashboard.html', **templateData, tables=sct.values.tolist(), titles=sct.columns.values)
+    return render_template('dashboard.html', **templateData, **templateExData, vp_name=tvalue, tables=sct.values.tolist(), titles=sct.columns.values )
+
+@app.route('/update', methods=['GET'])
+def workout_update():
+    return "<h1>Work In Progresss</h1>"
+
 if __name__ == '__main__':
     app.run(debug=True)
